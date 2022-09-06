@@ -129,7 +129,7 @@
       });
       
       AFRAME.registerComponent('cursor-listener', {
-    init: function () {
+    tick: function () {
     
       this.el.addEventListener('click', function (evt) {
        
