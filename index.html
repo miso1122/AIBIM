@@ -134,7 +134,7 @@
     this.el.renderer.sortObjects = true;
   },
 
-  update: function () {
+  tick: function () {
     this.order = {};
     for (i = 0; i < this.data.length; i++) {
       this.order[this.data[i]] = i;
