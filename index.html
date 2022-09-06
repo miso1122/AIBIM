@@ -127,17 +127,6 @@
           });
         }
       });
-      
-      AFRAME.registerComponent('cursor-listener', {
-    tick: function () {
-    
-      this.el.addEventListener('click', function (evt) {
-       
-        console.log('I was clicked at: ');
-      });
-    }
-  });
-     
     </script>
   </head>
  
@@ -146,7 +135,6 @@
     <a-scene 
       id="a_scene"  
       background="color: #837E7C"
-      cursor="rayOrigin: mouse; fuse: false" 
       raycaster="objects: .raycastable">
 
       <!-- 이미지 로딩 -->
@@ -165,7 +153,7 @@
       </a-assets>
 
       <!-- ifc 로딩 -->
-      <a-entity id="a_world" cursor-listener position="-10 -8 -30" class="raycastable"></a-entity>
+      <a-entity id="a_world" position="-10 -8 -30" class="raycastable"></a-entity>
 
       <!-- 터치를 위한 백그라운드 로딩 -->
       <a-entity
