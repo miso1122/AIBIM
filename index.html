@@ -126,6 +126,20 @@
           });
         }
       });
+      AFRAME.registerSystem('render-order', {
+  schema: {type: 'array'},
+
+  init: function () {
+    this.el.renderer.sortObjects = true;
+  },
+
+  update: function () {
+    this.order = {};
+    for (i = 0; i < this.data.length; i++) {
+      this.order[this.data[i]] = i;
+    }
+  }
+});
     </script>
   </head>
  
