@@ -3,7 +3,7 @@
         dependencies: ['material'],
         tick: function () {
           this.el.sceneEl.renderer.sortObjects = true;
-          this.el.object3D.renderOrder = 100;
+          this.el.object3D.renderOrder = 1000;
           this.el.components.material.material.depthTest = false;
         }
       });
@@ -12,7 +12,7 @@
         dependencies: ['material'],
         tick: function () {
           this.el.sceneEl.renderer.sortObjects = true;
-          this.el.object3D.renderOrder = 100;
+          this.el.object3D.renderOrder = 1000;
           this.el.components.text.material.depthTest = false;
         }
       });
