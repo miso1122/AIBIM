@@ -6,7 +6,6 @@
           this.el.object3D.renderOrder = 1000;
           this.el.components.material.material.depthTest = false;
           this.el.components.material.material.depthWrite = false;
-          this.el.components.material.material.alphaMap = particleTexture;
           this.el.components.material.material.blending = THREE.AdditiveBlending
         }
       });
@@ -18,7 +17,6 @@
           this.el.object3D.renderOrder = 1000;
           this.el.components.text.material.depthTest = false;
           this.el.components.text.material.depthWrite = false;
-          this.el.components.text.material.alphaMap = particleTexture;
           this.el.components.text.material.blending = THREE.AdditiveBlending
         }
       });
