@@ -64,7 +64,8 @@ class Task {
             hilightMat.color.setColorName("purple"); 
             hilightMat.transparent = true; 
             hilightMat.opacity = 0.6;   
-            hilightMat.needsUpdate =true; 
+            hilightMat.needsUpdate =true;
+            hilightMat.depthTest = false;
 
             this.highlightMaterial.push(hilightMat); 
          });
