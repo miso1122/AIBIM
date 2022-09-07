@@ -49,12 +49,13 @@
           return raycaster;
         }
 
-     const mat = new MeshLambertMaterial({
+      const mat = new MeshLambertMaterial({
             transparent: true,
             opacity: 0.3,
-            color: 0x000000
+            color: 0x000000,
+            depthTest: false
        });
-      
+
       AFRAME.registerComponent("cursor_click", {
         init: function () { 
           this.el.addEventListener("click", (e) => {   
@@ -126,21 +127,7 @@
           });
         }
       });
-      
-      AFRAME.registerSystem('render-order', {
-  schema: {type: 'array'},
-
-  init: function () {
-    this.el.renderer.sortObjects = true;
-  },
-
-  tick: function () {
-    this.order = {};
-    for (i = 0; i < this.data.length; i++) {
-      this.order[this.data[i]] = i;
-    }
-  }
-});
+     
     </script>
   </head>
  
@@ -149,7 +136,7 @@
     <a-scene 
       id="a_scene"  
       background="color: #837E7C"
-      render-order="a_world, panel"
+      cursor="rayOrigin: mouse; fuse: false" 
       raycaster="objects: .raycastable">
 
       <!-- 이미지 로딩 -->
@@ -188,7 +175,7 @@
           position="0.14 -0.6 -8"
           width="4.7"
           height="2"
-          material="transparent: false; alphaTest: 0.5;"
+          opacity="2"
           color="black"
         ></a-plane>
 
@@ -199,7 +186,7 @@
           id="playbtn"
           play
           color="white" 
-           material="transparent: false; alphaTest: 0.5;"
+          opacity="1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -217,7 +204,7 @@
           id="rewindbtn"
           rewind
           color="white" 
-           material="transparent: false; alphaTest: 0.5;"
+          opacity="1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -233,7 +220,7 @@
           position="-0.1 -0.2 -8"
           id="onoffbtn"
           show-info
-          material="transparent: false; alphaTest: 0.5;"
+          color="white" 
           opacity="1"
           width="0.5" 
           height="0.5" 
@@ -251,7 +238,7 @@
           id="wbtn"
           wcomponent
           color="white" 
-           material="transparent: false; alphaTest: 0.5;"
+          opacity="1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -268,7 +255,7 @@
           id="sbtn"
           scomponent
           color="white" 
-           material="transparent: false; alphaTest: 0.5;"
+          opacity="1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -285,7 +272,7 @@
           id="abtn"
           acomponent
           color="white" 
-           material="transparent: false; alphaTest: 0.5;"
+          opacity="1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -302,7 +289,7 @@
           id="dbtn"
           dcomponent
           color="white" 
-           material="transparent: false; alphaTest: 0.5;"
+          opacity="1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -319,7 +306,7 @@
           id="upbtn"
           upcomponent
           color="white" 
-           material="transparent: false; alphaTest: 0.5;"
+          opacity="1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -336,7 +323,7 @@
           id="dnbtn"
           dncomponent
           color="white" 
-           material="transparent: false; alphaTest: 0.5;"
+          opacity="1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
