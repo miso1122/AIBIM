@@ -65,9 +65,7 @@ class Task {
             hilightMat.transparent = true; 
             hilightMat.opacity = 0.6;   
             hilightMat.needsUpdate =true;
-            hilightMat.depthTest = true;
-            hilightMat.blending = THREE.AdditiveBlending
-
+            
             this.highlightMaterial.push(hilightMat); 
          });
 
