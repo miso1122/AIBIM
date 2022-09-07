@@ -58,7 +58,8 @@
 
       AFRAME.registerComponent("cursor_click", {
         init: function () { 
-          this.el.addEventListener("click", (e) => {   
+            var cursor = document.querySelector("#cursor");
+            cursor.addEventListener("click", (e) => {   
 
             let raycaster = getPickingRaycaster();
             let cam = document.querySelector("[camera]").getObject3D('camera');  
@@ -424,7 +425,7 @@
        </a-camera>
 
       <!-- Hand controls -->
-      <a-entity cursor cursor_click raycaster="objects: .raycastable"></a-entity>
+      <a-entity id ="cursor" cursor cursor_click raycaster="objects: .raycastable"></a-entity>
       <a-entity id="leftHand" laser-controls="hand: left"  raycaster="objects: .raycastable"></a-entity>
       <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .raycastable"></a-entity>
 
