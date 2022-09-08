@@ -46,6 +46,8 @@
             color: 0x000000,
             depthTest: false
        });
+      
+       AFRAME.registerComponent('raycastable', {});
 
       AFRAME.registerComponent("cursor_click", {
         init: function () { 
@@ -138,7 +140,7 @@
       var tasks = new Task();
       // tasks.init();
       console.log(tasks);
-     
+    
     </script>
   </head>
  
@@ -425,9 +427,9 @@
        </a-camera>
 
       <!-- Hand controls -->
-      <a-entity cursor cursor_click raycaster="objects: [raycastable1]"></a-entity>
-      <a-entity id="leftHand" cursor_click laser-controls="hand: left"  raycaster="objects: [raycastable1]"></a-entity>
-      <a-entity id="rightHand" cursor_click laser-controls="hand: right" raycaster="objects: [raycastable1]"></a-entity>
+      <a-entity cursor cursor_click raycaster="objects: [raycastable]"></a-entity>
+      <a-entity id="leftHand" cursor_click laser-controls="hand: left"  raycaster="objects: [raycastable]"></a-entity>
+      <a-entity id="rightHand" cursor_click laser-controls="hand: right" raycaster="objects: [raycastable]"></a-entity>
 
 
     </a-scene>
