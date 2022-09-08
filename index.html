@@ -25,55 +25,52 @@
           const x1 = event.clientX;
           const x2 = document.querySelectorAll('#a_scene')[0].clientWidth; 
           const y1 = event.clientY;
-          const y2 =document.querySelectorAll('#a_scene')[0].clientHeight;
+          const y2 = document.querySelectorAll('#a_scene')[0].clientHeight;
 
           curMv = {
-            x: x = (x1 / x2) * 2 - 1,
-            y: -(y1 / y2) * 2 + 1
+            x: (x1 / x2) * 2 - 1,
+            y: - (y1 / y2) * 2 + 1
           };
       }); 
 
-      // raycasting 함수
-      function getPickingRaycaster() { 
-          const raycaster = new Raycaster();
-          raycaster.firstHitOnly = true; 
-          var laserPoint = document.querySelectorAll('#rightHand')[0];
-          var laserPos = new Vector3();
-          var laserDir = new Vector3(0, 0, 1); 
-          var mw = laserPoint.object3D.matrixWorld;
-
-          laserPos.setFromMatrixPosition(mw);
-          laserDir.transformDirection(mw);
-
-          raycaster.set(laserPos, laserDir);
+      // raycasting 함수 for laser-controls
+      function getPickingRaycaster(entity) {  
+          var laserPoint = entity;  
+          let raycaster =  laserPoint.components['raycaster'].raycaster; 
           return raycaster;
         }
 
       const mat = new MeshLambertMaterial({
             transparent: true,
-            opacity: 0.3,
+            opacity: 0.4,
             color: 0x000000,
             depthTest: false
        });
 
       AFRAME.registerComponent("cursor_click", {
         init: function () { 
-          var cursor = document.querySelector("#cursor");
-          cursor.addEventListener("click", (e) => {   
-
-            let raycaster = getPickingRaycaster();
-            let cam = document.querySelector("[camera]").getObject3D('camera');  
+          let onClick = (e) => {
+            let raycaster = null;
+            if(e.target?.hasAttribute("laser-controls")){
+              raycaster = getPickingRaycaster(e.target);
+            }
+            else
+            {
+              raycaster = new THREE.Raycaster();
+              let cam = document.querySelector("[camera]").getObject3D('camera');  
+              raycaster.setFromCamera(curMv, cam);       
+            }
+           
             var raycastToShowPanel = document.querySelector('#raycastToShow');
-            var shwId = document.querySelector('#prpsetInfo');
+            var shwId = document.querySelector('#prpsetInfo'); 
             
-//             raycaster.setFromCamera(curMv, cam);       
-
-            let menuPanel = document.querySelector("#panel").object3D; 
-            let intersects = raycaster.intersectObject( menuPanel )[0] ;
-            if(intersects !=null  )
+            // 메뉴 패널 뒤로 클릭 안되게 
+            let menuPanel = document.querySelector("#panel").object3D;            
+            let intersects = raycaster.intersectObject( menuPanel )[0];
+            if(intersects != null)
                return;
 
-            intersects = raycaster.intersectObject( scene ).filter(o_=> o_.object?.visible ==true)[0];
+            intersects = raycaster.intersectObject( scene ).filter(o_=> o_.object?.visible == true)[0]; // 아직 load되지 않은 object는 클릭되지 않게
             // modelid = intersects.object.modelID;
             modelid = 0;
 
@@ -111,7 +108,7 @@
                     //console.log(ifc.getItemProperties(modelid,  v_.expressID, false)); 
                   } 
                 }); 
-
+                // click한 object higlight
                 ifc.createSubset({
                   modelID: modelid,
                   ids: exIds,
@@ -124,10 +121,23 @@
             else {
               raycastToShowPanel.setAttribute('visible', "false");
               ifcLoader.ifcManager.removeSubset(modelid, mat);
-            }            
-          });
+            }    
+          };
+          
+          this.el.addEventListener("triggerdown", (e) => { onClick(e) });
+          this.el.addEventListener("pinchstarted", (e) => { onClick(e) }); // 홀로렌즈
+          this.el.addEventListener("click", (e) => { onClick(e) });
         }
       });
+
+      // $.getJSON("5DSim.json", function(data) {
+      //   var elements = data.Site.Site.elements;
+      //   console.log(elements);
+      // });
+
+      var tasks = new Task();
+      // tasks.init();
+      console.log(tasks);
      
     </script>
   </head>
@@ -170,14 +180,13 @@
 
       <a-camera id="camera"> 
         <!-- 버튼 배경 -->
-          <!-- 버튼 배경 -->
         <a-plane
           overlay
-          material="color: black; transparent: false; alphaTest: 0.5; opacity:1"
           id="panel"
           position="0.14 -0.6 -8"
           width="4.7"
           height="2"
+          material="color: black; transparent: false; alphaTest: 0.5; opacity:1"
         ></a-plane>
 
         <!-- 플레이 버튼 -->
@@ -332,10 +341,10 @@
           visible="true"
           show-info>
           <a-entity id="progress_bar" position="0 0 0">
-            <a-box overlay  width="1.6"  height="0.05"  depth="0.05" material="color: white; transparent: true; alphaTest: 0.5; opacity:1"></a-box>
+            <a-box overlay material="color: white; transparent: true; alphaTest: 0.5; opacity:1" width="1.6"  height="0.05"  depth="0.05"></a-box>
           </a-entity> 
           <a-entity id="progress_point" position="-0.8 0 0">
-            <a-box overlay width="0.03"  height="0.15"  depth="0.06" material="color: tomato; transparent: true; alphaTest: 0.5; opacity:1" ></a-box>  
+            <a-box overlay material="color: tomato; transparent: true; alphaTest: 0.5; opacity:1" width="0.03"  height="0.15"  depth="0.06"></a-box>  
           </a-entity>
         </a-entity>
 
@@ -416,9 +425,10 @@
        </a-camera>
 
       <!-- Hand controls -->
-      <a-entity id="cursor" cursor cursor_click raycaster="objects: .raycastable"></a-entity>
-      <a-entity id="leftHand" laser-controls="hand: left"  raycaster="objects: .raycastable"></a-entity>
-      <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .raycastable"></a-entity>
+      <a-entity cursor cursor_click raycaster="objects: .raycastable"></a-entity>
+      <a-entity id="leftHand" cursor_click laser-controls="hand: left" hand-tracking-controls="hand: left;" raycaster="objects: .raycastable"></a-entity>
+      <a-entity id="rightHand" cursor_click laser-controls="hand: right" hand-tracking-controls="hand: right;" raycaster="objects: .raycastable"></a-entity>
+
 
     </a-scene>
   </body>
