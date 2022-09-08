@@ -6,10 +6,6 @@
           this.el.object3D.renderOrder = 100;
           this.el.components.material.material.depthTest = false;
           this.el.components.material.material.depthWrite  = false;
-          this.el.components.material.material.polygonOffset = true;
-          this.el.components.material.material.polygonOffsetUnit = 1;
-          this.el.components.material.material.polygonOffsetFactor = 1;
-
         }
       });
       // 글씨 맨 앞으로
@@ -20,8 +16,5 @@
           this.el.object3D.renderOrder = 100;
           this.el.components.text.material.depthTest = false;
           this.el.components.text.material.depthWrite  = false;
-          this.el.components.text.material.polygonOffset = true;
-          this.el.components.text.material.polygonOffsetUnit = 1;
-          this.el.components.text.material.polygonOffsetFactor = 1;
         }
       });
