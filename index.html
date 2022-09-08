@@ -47,97 +47,97 @@
             depthTest: false
        });
 
-      AFRAME.registerComponent("cursor_click", {
-        init: function () { 
-          let onClick = (e) => {
-            let raycaster = null;
-            if(e.target?.hasAttribute("laser-controls")){
-              raycaster = getPickingRaycaster(e.target);
-            }
-            else
-            {
-              raycaster = new THREE.Raycaster();
-              let cam = document.querySelector("[camera]").getObject3D('camera');  
-              raycaster.setFromCamera(curMv, cam);       
-            }
+//       AFRAME.registerComponent("cursor_click", {
+//         init: function () { 
+//           let onClick = (e) => {
+//             let raycaster = null;
+//             if(e.target?.hasAttribute("laser-controls")){
+//               raycaster = getPickingRaycaster(e.target);
+//             }
+//             else
+//             {
+//               raycaster = new THREE.Raycaster();
+//               let cam = document.querySelector("[camera]").getObject3D('camera');  
+//               raycaster.setFromCamera(curMv, cam);       
+//             }
            
-            var raycastToShowPanel = document.querySelector('#raycastToShow');
-            var shwId = document.querySelector('#prpsetInfo'); 
+//             var raycastToShowPanel = document.querySelector('#raycastToShow');
+//             var shwId = document.querySelector('#prpsetInfo'); 
             
-            // 메뉴 패널 뒤로 클릭 안되게 
-            let menuPanel = document.querySelector("#panel").object3D;            
-            let intersects = raycaster.intersectObject( menuPanel )[0];
-            if(intersects != null)
-               return;
+//             // 메뉴 패널 뒤로 클릭 안되게 
+//             let menuPanel = document.querySelector("#panel").object3D;            
+//             let intersects = raycaster.intersectObject( menuPanel )[0];
+//             if(intersects != null)
+//                return;
 
-            intersects = raycaster.intersectObject( scene ).filter(o_=> o_.object?.visible == true)[0]; // 아직 load되지 않은 object는 클릭되지 않게
-            // modelid = intersects.object.modelID;
-            modelid = 0;
+//             intersects = raycaster.intersectObject( scene ).filter(o_=> o_.object?.visible == true)[0]; // 아직 load되지 않은 object는 클릭되지 않게
+//             // modelid = intersects.object.modelID;
+//             modelid = 0;
 
-            if (intersects) {
-                const index = intersects.faceIndex;
-                const geometry = intersects.object.geometry;
-                const ifc = ifcLoader.ifcManager;
-                const expid = ifc.getExpressId(geometry, index);    
-                exIds = [expid];
-                const prpsets =  ifc.getPropertySets(modelid, expid, false);
+//             if (intersects) {
+//                 const index = intersects.faceIndex;
+//                 const geometry = intersects.object.geometry;
+//                 const ifc = ifcLoader.ifcManager;
+//                 const expid = ifc.getExpressId(geometry, index);    
+//                 exIds = [expid];
+//                 const prpsets =  ifc.getPropertySets(modelid, expid, false);
 
-                raycastToShowPanel.setAttribute('visible', "true");
+//                 raycastToShowPanel.setAttribute('visible', "true");
 
-                prpsets.then((psets_) => {
-                  for(let pset_ of psets_){
-                    let nm = strConverter.decodeString(pset_.Name.value);
-                    // console.log(pset_.Name.value + "->"  + nm);
-                    if(nm == "기타"){
-                      var prpVal =''; 
-                      for(let p_ of pset_.HasProperties){
-                        let v = ifcLoader.ifcManager.state.api.GetLine(0, p_.value,true);
-                        let pnm = strConverter.decodeString(v.Name.value);
-                        let vnm = strConverter.decodeString(v.NominalValue.value);
-                        if(pnm == "유형"){
-                          console.log(`${pnm}:${vnm}`);
-                          prpVal = prpVal.concat(`${pnm}:${vnm}\n`);
-                        }
-                        if(pnm == "유형 ID"){
-                          console.log(`${pnm}:${vnm}`);
-                          prpVal = prpVal.concat(`${pnm}:${vnm}`);
-                        }
-                      }
-                    }
-                    shwId.setAttribute("value", prpVal);
-                    //console.log(ifc.getItemProperties(modelid,  v_.expressID, false)); 
-                  } 
-                }); 
-                // click한 object higlight
-                ifc.createSubset({
-                  modelID: modelid,
-                  ids: exIds,
-                  material: mat,
-                  scene: scene,
-                  removePrevious: true,
-                });
+//                 prpsets.then((psets_) => {
+//                   for(let pset_ of psets_){
+//                     let nm = strConverter.decodeString(pset_.Name.value);
+//                     // console.log(pset_.Name.value + "->"  + nm);
+//                     if(nm == "기타"){
+//                       var prpVal =''; 
+//                       for(let p_ of pset_.HasProperties){
+//                         let v = ifcLoader.ifcManager.state.api.GetLine(0, p_.value,true);
+//                         let pnm = strConverter.decodeString(v.Name.value);
+//                         let vnm = strConverter.decodeString(v.NominalValue.value);
+//                         if(pnm == "유형"){
+//                           console.log(`${pnm}:${vnm}`);
+//                           prpVal = prpVal.concat(`${pnm}:${vnm}\n`);
+//                         }
+//                         if(pnm == "유형 ID"){
+//                           console.log(`${pnm}:${vnm}`);
+//                           prpVal = prpVal.concat(`${pnm}:${vnm}`);
+//                         }
+//                       }
+//                     }
+//                     shwId.setAttribute("value", prpVal);
+//                     //console.log(ifc.getItemProperties(modelid,  v_.expressID, false)); 
+//                   } 
+//                 }); 
+//                 // click한 object higlight
+//                 ifc.createSubset({
+//                   modelID: modelid,
+//                   ids: exIds,
+//                   material: mat,
+//                   scene: scene,
+//                   removePrevious: true,
+//                 });
                 
-            }
-            else {
-              raycastToShowPanel.setAttribute('visible', "false");
-              ifcLoader.ifcManager.removeSubset(modelid, mat);
-            }    
-          };
+//             }
+//             else {
+//               raycastToShowPanel.setAttribute('visible', "false");
+//               ifcLoader.ifcManager.removeSubset(modelid, mat);
+//             }    
+//           };
           
-          this.el.addEventListener("triggerdown", (e) => { onClick(e) });
-          this.el.addEventListener("pinchstarted", (e) => { onClick(e) }); // 홀로렌즈
-          this.el.addEventListener("click", (e) => { onClick(e) });
-        }
-      });
+//           this.el.addEventListener("triggerdown", (e) => { onClick(e) });
+//           this.el.addEventListener("pinchstarted", (e) => { onClick(e) }); // 홀로렌즈
+//           this.el.addEventListener("click", (e) => { onClick(e) });
+//         }
+//       });
 
-      // $.getJSON("5DSim.json", function(data) {
-      //   var elements = data.Site.Site.elements;
-      //   console.log(elements);
-      // });
+//       // $.getJSON("5DSim.json", function(data) {
+//       //   var elements = data.Site.Site.elements;
+//       //   console.log(elements);
+//       // });
 
-      var tasks = new Task();
-      // tasks.init();
-      console.log(tasks);
+//       var tasks = new Task();
+//       // tasks.init();
+//       console.log(tasks);
      
     </script>
   </head>
@@ -434,7 +434,7 @@
   </body>
 </html>
 
-<script>
+<!-- <script>
 
 // Sets up the scene
 let scene = $("#a_world")[0].object3D;
@@ -485,4 +485,4 @@ async function loadFloors() {
       taskScheduler.load(data);
    }); 
 }
-</script>
+</script> -->
