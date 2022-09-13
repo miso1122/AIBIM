@@ -46,11 +46,12 @@
           class="raycastable">
         </a-box>
         
-             <!-- Mouse cursor so we can click on the scene with mouse or touch. -->
-      <a-entity id="mouseCursor" cursor raycaster="objects: .raycastable"></a-entity>
+       <!-- Mouse cursor so we can click on the scene with mouse or touch. -->
+       <a-entity id="mouseCursor" cursor raycaster="objects: .raycastable"></a-entity>
+      </a-camera>
+      
       <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: .raycastable"></a-entity>
       <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .raycastable"></a-entity>
-      </a-camera>
 
  
     </a-scene>
