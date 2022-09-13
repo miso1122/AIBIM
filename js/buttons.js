@@ -9,7 +9,7 @@
 
           btn.addEventListener("click", (e) => {  
                lastIndex = (lastIndex + 1) % COLORS.length;
-               this.setAttribute('material', 'color', COLORS[lastIndex]);
+               btn.setAttribute('material', 'color', COLORS[lastIndex]);
           });
         }
       });
@@ -23,7 +23,7 @@
              
           btn.addEventListener("click", (e) => {
             lastIndex = (lastIndex + 1) % COLORS.length;
-            this.setAttribute('material', 'color', COLORS[lastIndex]);
+            btn.setAttribute('material', 'color', COLORS[lastIndex]);
           });
         }
       });   
