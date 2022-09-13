@@ -30,9 +30,9 @@
     <a-scene
     id="a_scene"  
     background="color: #837E7C"
-    cursor="rayOrigin: mouse; fuse: false" 
     raycaster="objects: .raycastable">    
       <a-camera>
+        <a-entity cursor raycaster="objects: .raycastable"></a-entity>
         <a-box 
           position="-1.7 -0.2 -8"
           id="playbtn"
@@ -45,12 +45,9 @@
           animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
           class="raycastable">
         </a-box>
-      </a-camera>
-      
+      </a-camera>      
       <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: .raycastable"></a-entity>
       <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .raycastable"></a-entity>
-
- 
     </a-scene>
   </body>
 </html>
