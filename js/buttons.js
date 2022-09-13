@@ -1,26 +1,15 @@
-     // 플레이 버튼
+      // 플레이 버튼
      AFRAME.registerComponent('play', {
         dependencies: ['material'],
         init: function () {
           var btn = document.querySelector("#playbtn");
-          var playimg = document.querySelector('#playimg');
 
-          var isClick = false;
+          var lastIndex = -1;
+          var COLORS = ['red', 'green', 'blue'];
 
           btn.addEventListener("click", (e) => {  
-
-              if(taskScheduler.isPlaying()){
-                taskScheduler.pause();
-                playimg.setAttribute('material', 'opacity', '0');
-                btn.setAttribute('src', './img/pause.png');   
-              } 
-              else{
-                taskScheduler.resume();
-                btn.setAttribute('material', 'color', 'white');
-                btn.removeAttribute('src' , './img/pause.png');
-                playimg.setAttribute('material', 'opacity', '1');
-              }
-            
+               lastIndex = (lastIndex + 1) % COLORS.length;
+               this.setAttribute('material', 'color', COLORS[lastIndex]);
           });
         }
       });
@@ -29,15 +18,12 @@
       AFRAME.registerComponent('rewind', {
         init: function () {
           var btn = document.querySelector("#rewindbtn");
+          var lastIndex = -1;
+          var COLORS = ['red', 'green', 'blue'];
+             
           btn.addEventListener("click", (e) => {
-            if(taskScheduler.isPlaying()){
-              taskScheduler.stop();
-              taskScheduler.play();
-            } 
-            else{
-              taskScheduler.stop();
-              taskScheduler.play();
-            }
+            lastIndex = (lastIndex + 1) % COLORS.length;
+            this.setAttribute('material', 'color', COLORS[lastIndex]);
           });
         }
       });   
