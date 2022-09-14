@@ -1,15 +1,26 @@
-     // 플레이 버튼
+    // 플레이 버튼
      AFRAME.registerComponent('play', {
         dependencies: ['material'],
         init: function () {
           var btn = document.querySelector("#playbtn");
+          var playimg = document.querySelector('#playimg');
 
-          var lastIndex = -1;
-          var COLORS = ['red', 'green', 'blue'];
+          var isClick = false;
 
           btn.addEventListener("click", (e) => {  
-               lastIndex = (lastIndex + 1) % COLORS.length;
-               btn.setAttribute('material', 'color', COLORS[lastIndex]);
+
+              if(taskScheduler.isPlaying()){
+                taskScheduler.pause();
+                playimg.setAttribute('material', 'opacity', '0');
+                btn.setAttribute('src', './img/pause.png');   
+              } 
+              else{
+                taskScheduler.resume();
+                btn.setAttribute('material', 'color', 'white');
+                btn.removeAttribute('src' , './img/pause.png');
+                playimg.setAttribute('material', 'opacity', '1');
+              }
+            
           });
         }
       });
@@ -18,12 +29,15 @@
       AFRAME.registerComponent('rewind', {
         init: function () {
           var btn = document.querySelector("#rewindbtn");
-          var lastIndex = -1;
-          var COLORS = ['red', 'green', 'blue'];
-             
           btn.addEventListener("click", (e) => {
-            lastIndex = (lastIndex + 1) % COLORS.length;
-            btn.setAttribute('material', 'color', COLORS[lastIndex]);
+            if(taskScheduler.isPlaying()){
+              taskScheduler.stop();
+              taskScheduler.play();
+            } 
+            else{
+              taskScheduler.stop();
+              taskScheduler.play();
+            }
           });
         }
       });   
