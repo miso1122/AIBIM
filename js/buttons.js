@@ -1,4 +1,4 @@
-     // 플레이 버튼
+    // 플레이 버튼
      AFRAME.registerComponent('play', {
         dependencies: ['material'],
         init: function () {
