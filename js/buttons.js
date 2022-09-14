@@ -126,11 +126,17 @@
         init: function() {
         var player = document.querySelector("#a_world");
         var btn = document.querySelector("#upbtn");
-        
+        var cam = document.querySelector("#camera");
+            
         btn.addEventListener("click", (e)=>{
-
+             var pos = player.getAttribute("position");
+             var camDir = new Vector3(-1,0,0);
+            camDir.transformDirection(cam.object3D.matrixWorld);   
+            camDir.multiplyScalar(5);
+            pos.add(camDir);
+            
             ybtn += -2.8;
-            var pos = {x:xbtn, y:ybtn, z:zbtn}
+            pos = {x: pos.x, y:ybtn, z: pos.z}
             player.setAttribute("position", pos);
         });
         }
