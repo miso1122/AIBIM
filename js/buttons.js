@@ -13,7 +13,6 @@
                 taskScheduler.pause();
                 playimg.setAttribute('material', 'opacity', '0');
                 btn.setAttribute('src', './img/pause.png'); 
-                btn.setAttribute('material', 'color', 'white');
               } 
               else{
                 taskScheduler.resume();
