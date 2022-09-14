@@ -129,7 +129,7 @@
             
         btn.addEventListener("click", (e)=>{
              var pos = player.getAttribute("position");
-             var camDir = new Vector3(-1,0,0);
+             var camDir = new Vector3(0,1,0);
             camDir.transformDirection(cam.object3D.matrixWorld);   
             camDir.multiplyScalar(5);
             pos.add(camDir);
