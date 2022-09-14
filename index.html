@@ -67,7 +67,7 @@
             
             // 메뉴 패널 뒤로 클릭 안되게 
             let menuPanel = document.querySelector("#panel").object3D;            
-            let intersects = raycaster.intersectObject( menuPanel )[0];
+            let intersects = raycaster.getIntersection( menuPanel )[0];
             if(intersects != null)
                return;
 
