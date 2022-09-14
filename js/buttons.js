@@ -13,6 +13,9 @@
                 taskScheduler.pause();
                 playimg.setAttribute('material', 'opacity', '0');
                 btn.setAttribute('src', './img/pause.png'); 
+//                    material="color: white; transparent: true; alphaTest: 0.5; opacity:1"
+                btn.setAttribute('material', 'alphaTest', '0.5'); 
+                btn.setAttribute('material', 'opacity', '1'); 
               } 
               else{
                 taskScheduler.resume();
