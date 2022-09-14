@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="styles.css">
     <title>AiBIM_Simulation</title>
 
-<!--     <script src="./js/aframe-master.js"></script>  -->
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="./js/aframe-master.js"></script> 
+    <!-- <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script> -->
+    <!-- <script src="aframe-v1.0.4.js"></script>// -->
     <script src="./js/bundle.js"></script>
     <script src="./js/jquery.js"></script>
     <script src="./js/task.js"></script> 
@@ -55,20 +56,26 @@
             if(e.target?.hasAttribute("laser-controls")){
               raycaster = getPickingRaycaster(e.target);
             }
-            else
+            else if(e.target?.hasAttribute("cursor"))
             {
+              if(AFRAME.scenes[0].states.indexOf("vr-mode") > -1){ 
+                return;
+              }
+
               raycaster = new THREE.Raycaster();
               let cam = document.querySelector("[camera]").getObject3D('camera');  
               raycaster.setFromCamera(curMv, cam);       
             }
-           
-            var raycastToShowPanel = document.querySelector('#raycastToShow');
+
             var shwId = document.querySelector('#prpsetInfo'); 
+
+            // // 글자 수에 맞춰서 패널 크기 조절
+            // totalWidth = shwId.value.length * (shwId.width / shwId.wrapCount);
+            // raycastToShowPanel.setAttribute('width', totalWidth);
             
             // 메뉴 패널 뒤로 클릭 안되게 
             let menuPanel = document.querySelector("#panel").object3D;            
             let intersects = raycaster.intersectObject( menuPanel )[0];
-            let iscts = raycaster.intersectObject( menuPanel );
             if(intersects != null)
                return;
 
@@ -84,7 +91,7 @@
                 exIds = [expid];
                 const prpsets =  ifc.getPropertySets(modelid, expid, false);
 
-                raycastToShowPanel.setAttribute('visible', "true");
+                shwId.setAttribute('visible', "true");
 
                 prpsets.then((psets_) => {
                   for(let pset_ of psets_){
@@ -106,7 +113,7 @@
                         }
                       }
                     }
-                    shwId.setAttribute("value", prpVal);
+                    shwId.setAttribute("text", "value", prpVal);
                     //console.log(ifc.getItemProperties(modelid,  v_.expressID, false)); 
                   } 
                 }); 
@@ -121,17 +128,29 @@
 
             }
             else {
-              raycastToShowPanel.setAttribute('visible', "false");
+              shwId.setAttribute('visible', "false");
               ifcLoader.ifcManager.removeSubset(modelid, mat);
             }    
           };
           
-          this.el.addEventListener("triggerdown", (e) => { onClick(e) });
-          this.el.addEventListener("pinchstarted", (e) => { onClick(e) }); // 홀로렌즈
-          this.el.addEventListener("click", (e) => { onClick(e) });
+          if(this.el.hasAttribute("laser-controls"))
+          { 
+            this.el.addEventListener("triggerdown", (e) => { onClick(e) });
+          }
+          else if(this.el.hasAttribute("cursor"))
+          { 
+            this.el.addEventListener("click", (e) => { onClick(e) });
+          }
+
+          //this.el.addEventListener("pinchstarted", (e) => { onClick(e) }); // 홀로렌즈
+          // this.el.addEventListener("click", (e) => { onClick(e) });
         }
       });
-  
+
+ 
+
+
+     
     </script>
   </head>
  
@@ -159,7 +178,8 @@
       </a-assets>
 
       <!-- ifc 로딩 -->
-      <a-entity id="a_world" position="-10 -8 -30" class="raycastable"></a-entity>
+      <!-- <a-entity id="a_world" position="-10 -8 -30" class="raycastable"></a-entity> -->
+      <a-entity id="a_world" position="-10 -8 -30"></a-entity>
 
       <!-- 터치를 위한 백그라운드 로딩 -->
       <a-entity
@@ -188,7 +208,7 @@
           position="-1.7 -0.2 -8"
           id="playbtn"
           play
-          material="color: white; transparent: true; alphaTest: 0.5; opacity:1"
+          material="color: white; opacity:1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -197,6 +217,7 @@
           class="raycastable">
           <a-image overlay id="playimg" src="#play" width="0.5" height="0.5" position="0 0 0.03" opacity="1"></a-image>
           <!-- <a-image overlay id="pauseimg" src="#pause" width="0.5" height="0.5" position="0 0 0.03" opacity="0"></a-image> -->
+          <!-- material="color: white; transparent: true; alphaTest: 0.5; opacity:1" -->
         </a-box>
 
         <!-- 되감기 버튼 -->
@@ -221,7 +242,7 @@
           position="-0.1 -0.2 -8"
           id="onoffbtn"
           show-info
-          material="color: white; transparent: true; alphaTest: 0.5; opacity:1"
+          material="color: white; opacity:1"
           width="0.5" 
           height="0.5" 
           depth="0.05" 
@@ -229,6 +250,7 @@
           animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
           class="raycastable">
           <a-image overlay id="visibleimg" src="#visible" width="0.5" height="0.5" position="0 0 0.03" opacity="1"></a-image>
+          <!-- material="color: white; transparent: true; alphaTest: 0.5; opacity:1" -->
         </a-box>
 
         <!-- w 버튼 -->
@@ -393,26 +415,15 @@
         </a-entity>
 
         <!-- 클릭시 내용보여주는 패널 -->
-        <a-entity>
           <a-entity
+            id="prpsetInfo"
+            overlay_text
             overlay
-            id="raycastToShow"
             visible="false"
-            position="0.14 -2 -8"
-            geometry="primitive: plane; width: 4.7; height: 0.5" 
-            opacity="1"
-            material="color: black">          
-            <a-text 
-              overlay_text
-              id="prpsetInfo"
-              position="-2.2 0.05 0"
-              font="https://raw.githubusercontent.com/myso-kr/aframe-fonts-korean/master/fonts/ofl/nanumgothic/NanumGothic-Regular.json" 
-              color="white" 
-              width="5" 
-              height="50.00" 
-              shader="msdf" 
-              value="길경민"></a-text>
-              <!-- wrap-count="15" -->
+            position="0.14 -2.2 -8"
+            geometry="primitive: plane; height: 0.8; width: 4.7;"
+            material="color: black"
+            text="width: 4.6; font: https://raw.githubusercontent.com/myso-kr/aframe-fonts-korean/master/fonts/ofl/nanumgothic/NanumGothic-Regular.json; value: 길경민; shader: msdf">
           </a-entity>
 
        </a-camera>
