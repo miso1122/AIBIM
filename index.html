@@ -65,10 +65,10 @@
             var raycastToShowPanel = document.querySelector('#raycastToShow');
             var shwId = document.querySelector('#prpsetInfo'); 
             
-           // 메뉴 패널 뒤로 클릭 안되게 
+            // 메뉴 패널 뒤로 클릭 안되게 
             let menuPanel = document.querySelector("#panel").object3D;            
             let intersects = raycaster.intersectObject( menuPanel )[0];
-            let intersection = raycaster.getIntersection(this.el);
+            let iscts = raycaster.intersectObject( menuPanel );
             if(intersects != null)
                return;
 
