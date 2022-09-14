@@ -27,18 +27,20 @@
   </head>
   <body>
     <a-scene id="a_scene"  
-             background="color: black">    
-       <a-box position="0 1.6 -4"
-              id="playbtn"
-              play
-              class="clickable"
-              material="color: white; opacity:1"
-              width="0.5" 
-              height="0.5" 
-              depth="0.05" 
-              animation__scale="property: scale; to: 2 2 2; dur: 200; startEvents: mouseenter"
-              animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave">
-       </a-box>  
+             background="color: black"> 
+       <a-camera id="camera"> 
+          <a-box position="0 1.6 -4"
+                 id="playbtn"
+                 play
+                 class="clickable"
+                 material="color: white; opacity:1"
+                 width="0.5" 
+                 height="0.5" 
+                 depth="0.05" 
+                 animation__scale="property: scale; to: 2 2 2; dur: 200; startEvents: mouseenter"
+                 animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave">
+          </a-box>  
+      </a-camera>
        <!-- Mouse cursor so we can click on the scene with mouse or touch. -->
       <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .clickable" ></a-entity>
       <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
