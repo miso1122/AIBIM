@@ -159,7 +159,7 @@
     <a-scene 
       id="a_scene"  
       background="color: #837E7C"
-      cursor="rayOrigin: mouse; fuse: false" 
+      
       raycaster="objects: .raycastable">
 
       <!-- 이미지 로딩 -->
@@ -460,7 +460,7 @@
        </a-camera>
 
       <!-- Hand controls -->
-      <a-entity cursor cursor_click raycaster="objects: .raycastable"></a-entity>
+      <a-entity cursor="rayOrigin: mouse" cursor_click raycaster="objects: .raycastable"></a-entity>
       <a-entity id="leftHand" cursor_click laser-controls="hand: left" raycaster="objects: .raycastable"></a-entity>
       <a-entity id="rightHand" cursor_click laser-controls="hand: right" raycaster="objects: .raycastable"></a-entity>
 
