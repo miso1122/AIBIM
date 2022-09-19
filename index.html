@@ -18,7 +18,7 @@
                     isClick = true;
                   } 
                   else{
-                    btn.setAttribute('material', 'color', 'white');
+                    btn.setAttribute('material', 'color', 'blue');
                     isClick = false;
                   }
                 
@@ -30,8 +30,7 @@
   <body>
     <a-scene
     id="a_scene"  
-    background="color: #837E7C"
-    cursor="rayOrigin: mouse; fuse: false" 
+    background="color: #837E7C" 
     raycaster="objects: .raycastable">    
       <a-camera>
         <a-box 
@@ -48,7 +47,7 @@
         </a-box>
       </a-camera>
        <!-- Mouse cursor so we can click on the scene with mouse or touch. -->
-      <a-entity id="mouseCursor" cursor raycaster="objects: .raycastable"></a-entity>
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable"></a-entity>
       <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: .raycastable"></a-entity>
       <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .raycastable"></a-entity>
     </a-scene>
