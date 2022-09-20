@@ -459,7 +459,7 @@
 <!--        </a-camera> -->
 
       <!-- Hand controls -->
-      <a-entity cursor="rayOrigin: mouse" raycaster="objects: .raycastable"></a-entity>
+      <a-entity cursor="rayOrigin: mouse" raycaster="objects: .raycastable" geometry="primitive: ring; radiusInner: 0.2; radiusOuter: 0.3;"></a-entity>
       <a-entity id="leftHand" cursor_click laser-controls="hand: left" raycaster="objects: .raycastable"></a-entity>
       <a-entity id="rightHand" cursor_click laser-controls="hand: right" raycaster="objects: .raycastable"></a-entity>
 
