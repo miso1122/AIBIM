@@ -13,7 +13,7 @@
         dependencies: ['material'],
         tick: function () {
           this.el.sceneEl.renderer.sortObjects = true;
-          this.el.object3D.renderOrder = 100;
+          this.el.object3D.renderOrder = 101;
           this.el.components.text.material.depthTest = false;
           this.el.components.text.material.depthWrite  = false;
         }
